@@ -4,7 +4,7 @@
 """
 
 import numpy as np
-import gym
+import gymnasium as gym
 import matplotlib.pyplot as plt
 import scipy
 

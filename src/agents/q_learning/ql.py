@@ -80,13 +80,14 @@ class QLAgent():
                       action = self.env.action_space.sample() # Exploration: random action
                   
                   #self.env.render()
-                  new_state, reward, done, info = self.env.step(action) #act
+                #   new_state, reward, done, info = self.env.step(action) #act
+                  new_state, reward, done, truncated, info = self.env.step(action) #act
                   
                   Q[action,state] = (1-self.alpha)*Q[action,state] + self.alpha * (reward + self.gamma * np.max(Q[:, new_state])) # update Q value
                          
                   state = new_state  # updating position in the environment
                   
-                  if done: 
+                  if done or truncated: 
                       break
                   
             self.epsilon = self.miner + (self.maxer - self.miner) * np.exp(-self.exploration_decay_rate*episode)                   

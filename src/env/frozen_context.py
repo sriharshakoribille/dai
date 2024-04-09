@@ -5,8 +5,9 @@ from contextlib import closing
 import numpy as np
 from six import StringIO,b
 
-from gym import utils
-from gym.envs.toy_text import discrete
+from gymnasium import utils
+# from gym.envs.toy_text import 
+import discrete
 
 LEFT = 0
 DOWN = 1

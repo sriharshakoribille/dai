@@ -6,9 +6,10 @@ Stochastic environment
 """
 
 import numpy as np
-from brl import BRLAgent
-from ql import QLAgent
-
+# from brl import BRLAgent
+# from ql import QLAgent
+from agents.bayesian_learning.brl import BRLAgent
+from agents.q_learning.ql import QLAgent
 
 
 

@@ -9,7 +9,7 @@
 
 from scipy.stats import beta
 import numpy as np
-from env import priors, update_prior_transition, update_prior_reward
+from .env import priors, update_prior_transition, update_prior_reward
 import utils as ut
 import random
 
@@ -92,7 +92,8 @@ class BRLAgent():
                 random.seed(episode)
                 
                 self.env = ut.environment_update(self.env1, self.env2, self.odd, episode)    
-                self.env.seed(episode)
+                # self.env.seed(episode)
+                self.env.reset(seed=episode)
                 
                 Q, self.belief_states, reward,i = self.planner()                     
               
