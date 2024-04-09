@@ -6,7 +6,7 @@ Stochastic environment
 """
 
 import os
-os.chdir('D:/PhD/Code/bayes')
+# os.chdir('D:/PhD/Code/bayes')
 import numpy as np
 import pandas as pd
 import stochastic as st
