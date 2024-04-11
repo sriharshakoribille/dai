@@ -9,7 +9,7 @@
 
 from scipy.stats import beta
 import numpy as np
-from env import priors, update_prior_transition, update_prior_reward
+from .env import priors, update_prior_transition, update_prior_reward
 import utils as ut
 import random
 
@@ -47,7 +47,7 @@ class BRLAgent():
         
             # Planning bayesian optimal behaviour based on thompson sampling approximation
             
-            self.state = self.env.reset()
+            self.state = self.env.reset()[0]
             done = False
             
             for i in range(self.nt):
@@ -69,7 +69,8 @@ class BRLAgent():
                     
                     action = np.argmax(Q_hat[:,self.state])
                     # sample next state:            
-                    new_state, reward, done, info = self.env.step(action) 
+                    new_state, reward, terminated, truncated, info = self.env.step(action) 
+                    done = terminated or truncated
                     
                     # update priors:
                     self.a_t,self.b_t = update_prior_transition(self.a_t,self.b_t,action,self.state,new_state, 1)
@@ -92,7 +93,7 @@ class BRLAgent():
                 random.seed(episode)
                 
                 self.env = ut.environment_update(self.env1, self.env2, self.odd, episode)    
-                self.env.seed(episode)
+                # self.env.seed(episode)
                 
                 Q, self.belief_states, reward,i = self.planner()                     
               

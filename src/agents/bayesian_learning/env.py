@@ -3,7 +3,7 @@
 """
 
 import numpy as np
-import mdp
+from .mdp import MDP
 
 def priors(theta_transition, theta_reward, env, discount): 
     
@@ -39,7 +39,7 @@ def priors(theta_transition, theta_reward, env, discount):
         a_t = theta_transition;        
         b_t = (1-theta_transition)/2  
             
-        P = env.P
+        P = env.unwrapped.P
         states = list(range(state_space_size))
         for j in states:
             sa = P[j]
@@ -76,7 +76,7 @@ def priors(theta_transition, theta_reward, env, discount):
         r[:,5] = 100*(a_r) # belief that this is the true reward location
         r[:,7] = 100*(b_r) # belief that this is the wrong reward location
          
-        mdp_env = mdp.MDP(ass,r,discount)
+        mdp_env = MDP(ass,r,discount)
         return mdp_env
 
 

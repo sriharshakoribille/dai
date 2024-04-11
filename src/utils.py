@@ -4,7 +4,7 @@
 """
 
 import numpy as np
-import gym
+import gymnasium as gym
 import matplotlib.pyplot as plt
 import scipy
 
@@ -21,14 +21,17 @@ def argmaxrand(a):
 
 def play_episode(Q, env, max_steps_per_episode, render = False):  
     
-    state = env.reset()
+    state = env.reset()[0]
+    r = 0
     for step in range(max_steps_per_episode):  
         
         #action = argmaxrand(Q[:,state])     
         action = np.argmax(Q[:,state])  
-        new_state, reward, done, info = env.step(action) 
-        
-        r = np.where(new_state==7, 100,0)
+        new_state, reward, terminated, truncated, info = env.step(action) 
+        done = terminated or truncated
+        # r = np.where(new_state==7, 100,0)
+        # r = np.where(new_state==7, 1,0)
+        r += 100*reward
         
         if render:
             env.render()
@@ -42,14 +45,16 @@ def play_episode(Q, env, max_steps_per_episode, render = False):
     return r, step+1
             
         
-def environment_update(one,two, odd, episode):   
-         
+def environment_update(one,two, odd, episode):
+
     # Alternating between goal locations:
     if episode in odd:
-        env =  gym.make(one) # goal location 1
-    else:         
-        env =  gym.make(two) # goal location 2
-
+        desc = ["SFF","FFH","FGF"]  # goal location 1  
+    else:
+        desc = ["SFF","FFG","FHF"]  # goal location 2
+         
+    env = gym.make("FrozenLake-v1", is_slippery=False, render_mode="rgb_array", desc = desc)
+    
     return env
 
     
